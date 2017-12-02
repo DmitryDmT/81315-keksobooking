@@ -1,22 +1,22 @@
 'use strict';
 var advCount = 8;
-var userAvatars = 8;
+var userAvatarsCount = 8;
 var fixedOfferTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
 
-var pictureCount = 8;
-var pictureNumbers = [];
-for (var pictureIndex = 0; pictureIndex < pictureCount; pictureIndex++) {
-  pictureNumbers.push(pictureIndex + 1);
+var userAvatarsCount = 8;
+var userAvatars = [];
+for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
+  userAvatars.push(avatarIndex + 1);
 }
 
 var startX = 300;
 var endX = 901;
 var coordinatesX = [];
 for (var coordXIndex = startX; coordXIndex <= endX; coordXIndex++) {
-  coordinatesX.push(i);
+  coordinatesX.push(coordXIndex);
 }
 
 var startY = 100;
@@ -70,7 +70,7 @@ var getFeatures = function () {
   var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var offerFeatures = [];
 
-  for (var featuresIndex = 0; featuresIndex < 1 + Math.floor(Math.random() * fixedOfferFeatures.length); i++) {
+  for (var featuresIndex = 0; featuresIndex < 1 + Math.floor(Math.random() * fixedOfferFeatures.length); featuresIndex++) {
     offerFeatures.push(fixedOfferFeatures[featuresIndex]);
   }
 
@@ -86,7 +86,7 @@ var getChangeableTypes = function (type) {
     return 'Дом';
   }
 
-  return;
+  return type;
 };
 
 var renderAdvertisements = function () {
@@ -94,7 +94,7 @@ var renderAdvertisements = function () {
   var locationY = getRandomNumber(coordinatesY);
   var advertisement = {
     'author': {
-      'avatar': 'img/avatars/user0' + getRandomNumber(pictureNumbers) + '.png'
+      'avatar': 'img/avatars/user0' + getRandomNumber(userAvatars) + '.png'
     },
     'offer': {
       'title': getRandomNumber(fixedOfferTitles),
