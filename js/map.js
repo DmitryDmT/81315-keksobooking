@@ -5,42 +5,31 @@ var advCount = 8;
 var offerTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var placeTypes = ['flat', 'house', 'bungalo'];
 
-var randomLocationX = function (start, end) {
-  var coordinatesX = [];
+var randomLocationCoordinates = function (start, end) {
+  var coordinates = [];
 
   for (var i = start; i <= end; i++) {
-    coordinatesX.push(i);
+    coordinates.push(i);
   }
 
-  var result = coordinatesX.splice(Math.floor(Math.random() * coordinatesX.length), 1);
+  var result = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1)[0];
 
   return result;
 };
 
-var randomLocationY = function (start, end) {
-  var coordinatesY = [];
-
-  for (var i = start; i <= end; i++) {
-    coordinatesY.push(i);
-  }
-
-  var result = coordinatesY.splice(Math.floor(Math.random() * coordinatesY.length), 1);
-  
-  return result;
-};
-
-var priceStart = 1000;
-var priceEnd = 999000;
-
-var randomPrice = function () {
+var randomPrice = function (priceStart, priceEnd) {
   var randomNumber = Math.floor(priceStart + Math.random() * priceEnd);
-
   return randomNumber;
 };
 
 var randomType = function () {
-  var randomNumber = Math.floor(Math.random() * 3);
+  var randomNumber = Math.floor(Math.random() * placeTypes.length);
   return placeTypes[randomNumber];
+};
+
+var randomCount = function (minCount, maxCount) {
+  var randomNumber = Math.floor(minCount + Math.random() * maxCount);
+  return randomNumber;
 };
 
 for (var i = 0; i < advCount; i++) {
@@ -51,10 +40,10 @@ for (var i = 0; i < advCount; i++) {
     "offer": {
       "title": offerTitles[i],
       "address": 'location.x, y',
-      "price": randomPrice(),
-      "type": randomType(),
-      "rooms": 'от 1 до 5',
-      "guests": 'случайное количество гостей, которое можно разместить',
+      "price": 'Цена - ' + randomPrice(1000, 1000000),
+      "type": 'Тип помещения - ' + randomType(),
+      "rooms": 'Количество комнат - ' + randomCount(1, 5),
+      "guests": 'Количество гостей - ' + randomCount(1, 10),
       "checkin": '12:00',
       "checkout": '12:00',
       "features": 'массив строк случайной длины из ниже предложенных: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"',
@@ -62,16 +51,18 @@ for (var i = 0; i < advCount; i++) {
       "photos": []
     },
     "location": {
-      "x": randomLocationX(300, 900),
-      "y": randomLocationY(100, 500)
+      "x": 'Координата x - ' + randomLocationCoordinates(300, 900),
+      "y": 'Координата y - ' + randomLocationCoordinates(100, 500)
     }
   };
-
-  console.log(advertisements[i].author.avatar);
-  console.log(advertisements[i].offer.title);
-  console.log(advertisements[i].offer.address);
-  console.log(advertisements[i].offer.price);
-  console.log(advertisements[i].offer.type);
-  console.log(advertisements[i].location.x);
-  console.log(advertisements[i].location.y);
 }
+
+console.log(advertisements[0].author.avatar);
+console.log(advertisements[0].offer.title);
+console.log(advertisements[0].offer.address);
+console.log(advertisements[0].offer.price);
+console.log(advertisements[0].offer.type);
+console.log(advertisements[0].offer.rooms);
+console.log(advertisements[0].offer.guests);
+console.log(advertisements[0].location.x);
+console.log(advertisements[0].location.y);
