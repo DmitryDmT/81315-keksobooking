@@ -137,8 +137,15 @@ var renderMapCards = function(advertisement) {
   mapCard.querySelector('h4').textContent = getChangeableTypes(advertisement.offer.type);
   mapCard.querySelector('p:nth-of-type(3)').textContent = advertisement.offer.rooms + ' для ' + advertisement.offer.guests + ' гостей';
   mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout;
-  mapCard.querySelector('.popup__features').innerHTML = '<li class="feature feature--' + advertisement.offer.features + '">';
+//  mapCard.querySelector('.popup__features').innerHTML = '<li class="feature feature--' + advertisement.offer.features + '">';
   mapCard.querySelector('p:last-of-type').textContent = advertisement.offer.description;
+  for (var i = 0; i < advertisement.offer.features.length; i++) {
+    var featureElement = document.createElement('li');
+    
+    featureElement.classList.add('feature', 'feature--' + advertisement.offer.features[i]);
+    mapCard.querySelector('.popup__features').appendChild(featureElement);
+  }
+  
   mapCard.querySelector('.popup__avatar').setAttribute('src', advertisement.author.avatar);
   
   return mapCard;
