@@ -6,8 +6,9 @@ var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
 
+var pictureCount = 8;
 var pictureNumbers = [];
-for (var i = 0; i < 8; i++) {
+for (var i = 0; i < pictureCount; i++) {
   pictureNumbers.push(i + 1);
 }
 
@@ -28,15 +29,16 @@ for (var i = startY; i <= endY; i++) {
 var getRandomValue = function(arrayLength) {
   var min = 0;
   var max = arrayLength - 1;
-  var randomValue = Math.floor(Math.random() * (max - min) + min);
+  var randomValue = Math.round(Math.random() * (max - min) + min);
 
   return randomValue;
 };
 
 var getRandomNumber = function(array) {
-  var result = getRandomValue(array.length);
+  var randVal = getRandomValue(array.length);
+  var result = array.splice(randVal, 1)[0];
 
-  return array.splice(result, 1)[0];
+  return result;
 };
 
 var getRandomPrice = function(priceStart, priceEnd) {
@@ -111,7 +113,7 @@ var renderAdvertisements = function() {
     }
   };
 console.log(locationX);
-  console.log(advertisement.author.avatar);
+  console.log(advertisement.offer.title);
   return advertisement;
 };
 
@@ -160,7 +162,7 @@ var renderMapCards = function(advertisement) {
 
   return mapCard;
 };
-var cards = [];
+
 for (var i = 0; i < advCount; i++) {
   var advertisement = renderAdvertisements();
   var mapPins = renderMapPins(advertisement);
@@ -168,9 +170,6 @@ for (var i = 0; i < advCount; i++) {
 
   fragmentPin.appendChild(mapPins);
   fragmentCard.appendChild(mapCards);
-  cards[i] = advertisement;
-  
-  console.log(mapCards);
 }
 
 mapPinElement.appendChild(fragmentPin);
