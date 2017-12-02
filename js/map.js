@@ -5,16 +5,41 @@ var fixedOfferTitles = ['Большая уютная квартира', 'Мал�
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
+var pictureNumbers = [];
+for (var i = 0; i < 8; i++) {
+  pictureNumbers.push(i + 1);
+}
 
-var getRandomLocationCoordinates = function(start, end) {
-  var coordinates = [];
+var coordinates = [];
+for (var i = 300; i <= 320; i++) {
+  coordinates.push(i);
+}
 
-  for (var i = start; i <= end; i++) {
-    coordinates.push(i);
-  }
+var getRandomValue = function(arrayLength) {
+  var min = 0;
+  var max = arrayLength - 1;
+  var randomValue = Math.floor(Math.random() * (max - min) + min);
 
-  var result = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1)[0];
-  return result;
+  return randomValue;
+};
+
+//var getRandomLocationCoordinates = function(start, end) {
+//  var coordinates = [];
+//
+//  for (var i = start; i <= end; i++) {
+//    coordinates.push(i);
+//  }
+//  
+//  var result = getRandomValue(coordinates.length);
+//
+//  var result = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1)[0];
+//  return coordinates.splice(result, 1)[0];
+//};
+
+var getRandomLoca = function(coordinates) {
+  var coord = getRandomValue(coordinates.length);
+  
+  return coordinates.splice(coord, 1)[0];
 };
 
 var getRandomOfferTitle = function() {
@@ -41,14 +66,14 @@ var getRandomType = function() {
 var getRandomCheckIn = function() {
   var randomNumber = Math.floor(Math.random() * checkInTimeMarks.length);
   return checkInTimeMarks[randomNumber];
-}
+};
 
 var getRandomCheckOut = function() {
   var randomNumber = Math.floor(Math.random() * checkOutTimeMarks.length);
   return checkOutTimeMarks[randomNumber];
-}
+};
 
-var getRandomCount = function (minCount, maxCount) {
+var getRandomCount = function(minCount, maxCount) {
   var randomNumber = Math.floor(minCount + Math.random() * maxCount);
   return randomNumber;
 };
@@ -56,15 +81,19 @@ var getRandomCount = function (minCount, maxCount) {
 var getFeatures = function() {
   var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var offerFeatures = [];
-  
+
   for (var i = 0; i < 1 + Math.floor(Math.random() * fixedOfferFeatures.length); i++) {
     offerFeatures.push(fixedOfferFeatures[i]);
   }
-  
+
   return offerFeatures;
 };
 
-var featuresArr = getFeatures();
+var getRandomNumberAvatar = function(pictNums) {
+  var numberAvatar = getRandomValue(pictNums.length);
+  
+  return pictNums.splice(numberAvatar, 1)[0];
+};
 
 var getChangeableTypes = function(type) {
   if (type === 'flat') {
@@ -74,14 +103,14 @@ var getChangeableTypes = function(type) {
   } else if (type === 'house') {
     return 'Дом';
   }
-}
+};
 
 var renderAdvertisements = function() {
-  var locationX = getRandomLocationCoordinates(300, 900);
-  var locationY = getRandomLocationCoordinates(100, 500);
+  var locationX = getRandomLoca(coordinates);
+  var locationY = getRandomLoca(coordinates);
   var advertisement = {
     "author": {
-      "avatar": 'img/avatars/user0' + (i + 1) + '.png'
+      "avatar": 'img/avatars/user0' + getRandomNumberAvatar(pictureNumbers) + '.png'
     },
     "offer": {
       "title": getRandomOfferTitle(),
@@ -92,7 +121,7 @@ var renderAdvertisements = function() {
       "guests": getRandomCount(1, 10),
       "checkin": getRandomCheckIn(),
       "checkout": getRandomCheckOut(),
-      "features": featuresArr,
+      "features": getFeatures(),
       "description": '',
       "photos": []
     },
@@ -101,7 +130,7 @@ var renderAdvertisements = function() {
       "y": locationY
     }
   };
-  
+console.log(locationX);
   return advertisement;
 };
 
@@ -119,18 +148,18 @@ var renderMapPins = function(advertisement) {
   var mapPin = document.createElement('button');
   var mapPinWidth = 40;
   var mapPinHeight = 62;
-  
+
   mapPin.className = 'map__pin';
   mapPin.style.left = advertisement.location.x - mapPinWidth / 2 + 'px';
   mapPin.style.top = advertisement.location.y + mapPinHeight + 'px';
   mapPin.innerHTML = '<img src="' + advertisement.author.avatar + '" width="40" height="40" draggable="false">';
-  
+
   return mapPin;
 };
 
 var renderMapCards = function(advertisement) {
   var mapCard = template.cloneNode(true);
-  
+
   mapCard.querySelector('h3').textContent = advertisement.offer.title;
   mapCard.querySelector('p:nth-of-type(1)').textContent = advertisement.offer.address;
   mapCard.querySelector('.popup__price').innerHTML = advertisement.offer.price + '&#x20bd;/ночь';
@@ -141,13 +170,13 @@ var renderMapCards = function(advertisement) {
   mapCard.querySelector('p:last-of-type').textContent = advertisement.offer.description;
   for (var i = 0; i < advertisement.offer.features.length; i++) {
     var featureElement = document.createElement('li');
-    
+
     featureElement.classList.add('feature', 'feature--' + advertisement.offer.features[i]);
     mapCard.querySelector('.popup__features').appendChild(featureElement);
   }
-  
+
   mapCard.querySelector('.popup__avatar').setAttribute('src', advertisement.author.avatar);
-  
+
   return mapCard;
 };
 
@@ -155,7 +184,7 @@ for (var i = 0; i < advCount; i++) {
   var advertisement = renderAdvertisements();
   var mapPins = renderMapPins(advertisement);
   var mapCards = renderMapCards(advertisement);
-  
+
   fragmentPin.appendChild(mapPins);
   fragmentCard.appendChild(mapCards);
   console.log(mapCards);
