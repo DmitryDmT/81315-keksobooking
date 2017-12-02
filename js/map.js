@@ -5,14 +5,24 @@ var fixedOfferTitles = ['Большая уютная квартира', 'Мал�
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
+
 var pictureNumbers = [];
 for (var i = 0; i < 8; i++) {
   pictureNumbers.push(i + 1);
 }
 
-var coordinates = [];
-for (var i = 300; i <= 320; i++) {
-  coordinates.push(i);
+var startX = 300;
+var endX = 901;
+var coordinatesX = [];
+for (var i = startX; i <= endX; i++) {
+  coordinatesX.push(i);
+}
+
+var startY = 100;
+var endY = 501;
+var coordinatesY = [];
+for (var i = startY; i <= endY; i++) {
+  coordinatesY.push(i);
 }
 
 var getRandomValue = function(arrayLength) {
@@ -23,34 +33,10 @@ var getRandomValue = function(arrayLength) {
   return randomValue;
 };
 
-//var getRandomLocationCoordinates = function(start, end) {
-//  var coordinates = [];
-//
-//  for (var i = start; i <= end; i++) {
-//    coordinates.push(i);
-//  }
-//  
-//  var result = getRandomValue(coordinates.length);
-//
-//  var result = coordinates.splice(Math.floor(Math.random() * coordinates.length), 1)[0];
-//  return coordinates.splice(result, 1)[0];
-//};
+var getRandomNumber = function(array) {
+  var result = getRandomValue(array.length);
 
-var getRandomLoca = function(coordinates) {
-  var coord = getRandomValue(coordinates.length);
-  
-  return coordinates.splice(coord, 1)[0];
-};
-
-var getRandomOfferTitle = function() {
-  var offerTitles = [];
-
-  for (var i = 0; i < fixedOfferTitles.length; i++) {
-    offerTitles.push(fixedOfferTitles[i]);
-  }
-
-  var result = offerTitles.splice(Math.floor(Math.random() * offerTitles.length), 1)[0];
-  return result;
+  return array.splice(result, 1)[0];
 };
 
 var getRandomPrice = function(priceStart, priceEnd) {
@@ -89,12 +75,6 @@ var getFeatures = function() {
   return offerFeatures;
 };
 
-var getRandomNumberAvatar = function(pictNums) {
-  var numberAvatar = getRandomValue(pictNums.length);
-  
-  return pictNums.splice(numberAvatar, 1)[0];
-};
-
 var getChangeableTypes = function(type) {
   if (type === 'flat') {
     return 'Квартира';
@@ -106,14 +86,14 @@ var getChangeableTypes = function(type) {
 };
 
 var renderAdvertisements = function() {
-  var locationX = getRandomLoca(coordinates);
-  var locationY = getRandomLoca(coordinates);
+  var locationX = getRandomNumber(coordinatesX);
+  var locationY = getRandomNumber(coordinatesY);
   var advertisement = {
     "author": {
-      "avatar": 'img/avatars/user0' + getRandomNumberAvatar(pictureNumbers) + '.png'
+      "avatar": 'img/avatars/user0' + getRandomNumber(pictureNumbers) + '.png'
     },
     "offer": {
-      "title": getRandomOfferTitle(),
+      "title": getRandomNumber(fixedOfferTitles),
       "address": locationX + ', ' + locationY,
       "price": getRandomPrice(1000, 999000),
       "type": getRandomType(),
@@ -131,6 +111,7 @@ var renderAdvertisements = function() {
     }
   };
 console.log(locationX);
+  console.log(advertisement.author.avatar);
   return advertisement;
 };
 
@@ -179,7 +160,7 @@ var renderMapCards = function(advertisement) {
 
   return mapCard;
 };
-
+var cards = [];
 for (var i = 0; i < advCount; i++) {
   var advertisement = renderAdvertisements();
   var mapPins = renderMapPins(advertisement);
@@ -187,6 +168,8 @@ for (var i = 0; i < advCount; i++) {
 
   fragmentPin.appendChild(mapPins);
   fragmentCard.appendChild(mapCards);
+  cards[i] = advertisement;
+  
   console.log(mapCards);
 }
 
