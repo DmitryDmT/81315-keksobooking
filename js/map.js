@@ -1,4 +1,5 @@
 'use strict';
+var advCount = 8;
 var userAvatars = 8;
 var offerTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var placeTypes = ['flat', 'house', 'bungalo'];
@@ -52,39 +53,60 @@ var getFeatures = function () {
   return offerFeatures;
 };
 
-var getAdvertisements = function (advCount) {
-  for (var i = 0; i < advCount; i++) {
-    var advertisements = [];
-    var locationX = getRandomLocationCoordinates(300, 900);
-    var locationY = getRandomLocationCoordinates(100, 500);
-
-    advertisements[i] = {
-      "author": {
-        "avatar": 'img/avatars/user0' + (1 + Math.floor(Math.random() * userAvatars)) + '.png'
-      },
-      "offer": {
-        "title": offerTitles[Math.floor(Math.random() * offerTitles.length)],
-        "address": 'Адрес - ' + locationX + ', ' + locationY,
-        "price": 'Цена - ' + getRandomPrice(1000, 999000),
-        "type": 'Тип помещения - ' + getRandomType(),
-        "rooms": 'Количество комнат - ' + getRandomCount(1, 5),
-        "guests": 'Количество гостей - ' + getRandomCount(1, 10),
-        "checkin": 'Время регистрации - ' + getRandomCheckIn(),
-        "checkout": 'Время выписки - ' + getRandomCheckOut(),
-        "features": 'Особенности - ' + getFeatures(),
-        "description": '',
-        "photos": []
-      },
-      "location": {
-        "x": 'Координата x - ' + locationX,
-        "y": 'Координата y - ' + locationY
-      }
-    };
-  }
+var renderAdvertisements = function () {
+  var locationX = getRandomLocationCoordinates(300, 900);
+  var locationY = getRandomLocationCoordinates(100, 500);
+  var advertisement = {
+    "author": {
+      "avatar": 'img/avatars/user0' + (1 + Math.floor(Math.random() * userAvatars)) + '.png'
+    },
+    "offer": {
+      "title": offerTitles[Math.floor(Math.random() * offerTitles.length)],
+      "address": locationX + ', ' + locationY,
+      "price": getRandomPrice(1000, 999000),
+      "type": getRandomType(),
+      "rooms": getRandomCount(1, 5),
+      "guests": getRandomCount(1, 10),
+      "checkin": getRandomCheckIn(),
+      "checkout": getRandomCheckOut(),
+      "features": getFeatures(),
+      "description": '',
+      "photos": []
+    },
+    "location": {
+      "x": locationX,
+      "y": locationY
+    }
+  };
   
-  return advertisements;
+  return advertisement;
 };
 
-var advertisements = getAdvertisements(8);
+var renderMapPins = function (advertisement) {
+  var mapPin = document.createElement('button');
+  var mapPinWidth = 40;
+  var mapPinHeight = 62;
+  
+  mapPin.className = 'map__pin';
+  mapPin.style.left = advertisement.location.x + 'px';
+  mapPin.style.top = advertisement.location.y + 'px';
+  mapPin.innerHTML = '<img src="' + advertisement.author.avatar + '" width="40" height="40" draggable="false">';
+  
+  return mapPin;
+};
 
-document.querySelector('.map').classList.remove('map--faded');
+var fragment = document.createDocumentFragment();
+
+var mapElement = document.querySelector('.map');
+var mapPinElement = document.querySelector('.map__pins');
+
+mapElement.classList.remove('map--faded');
+
+for (var i = 0; i < advCount; i++) {
+  var advertisement = renderAdvertisements();
+  var mapPins = renderMapPins(advertisement);
+  
+  fragment.appendChild(mapPins);
+}
+
+mapPinElement.appendChild(fragment);
