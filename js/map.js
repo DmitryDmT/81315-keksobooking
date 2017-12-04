@@ -35,7 +35,7 @@ var getRandomElement = function (array) {
 
 var getRandomNumber = function (min, max) {
   var result = Math.round(Math.random() * (max - min) + min);
-  
+
   return result;
 }
 
