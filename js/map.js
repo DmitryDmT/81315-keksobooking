@@ -4,6 +4,7 @@ var fixedOfferTitles = ['Большая уютная квартира', 'Мал�
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
+var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 var userAvatarsCount = 8;
 var userAvatars = [];
@@ -14,16 +15,14 @@ for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
 var getRandomValue = function (arrayLength) {
   var min = 0;
   var max = arrayLength - 1;
-  var randomValue = Math.round(Math.random() * (max - min) + min);
 
-  return randomValue;
+  return Math.round(Math.random() * (max - min) + min);
 };
 
 var getUniqueRandomElement = function (array) {
   var randVal = getRandomValue(array.length);
-  var result = array.splice(randVal, 1)[0];
 
-  return result;
+  return array.splice(randVal, 1)[0];
 };
 
 var getRandomElement = function (array) {
@@ -33,13 +32,10 @@ var getRandomElement = function (array) {
 };
 
 var getRandomNumber = function (min, max) {
-  var result = Math.round(Math.random() * (max - min) + min);
-
-  return result;
+  return Math.round(Math.random() * (max - min) + min);
 };
 
 var getFeatures = function () {
-  var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var offerFeatures = [];
 
   for (var featuresIndex = 0; featuresIndex < 1 + Math.floor(Math.random() * fixedOfferFeatures.length); featuresIndex++) {
