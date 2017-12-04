@@ -4,7 +4,6 @@ var fixedOfferTitles = ['Большая уютная квартира', 'Мал�
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
-var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 var userAvatarsCount = 8;
 var userAvatars = [];
@@ -37,7 +36,7 @@ var getRandomNumber = function (min, max) {
   var result = Math.round(Math.random() * (max - min) + min);
 
   return result;
-}
+};
 
 var getFeatures = function () {
   var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
