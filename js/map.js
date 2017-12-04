@@ -4,25 +4,12 @@ var fixedOfferTitles = ['Большая уютная квартира', 'Мал�
 var placeTypes = ['flat', 'house', 'bungalo'];
 var checkInTimeMarks = ['12:00', '13:00', '14:00'];
 var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
+var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 var userAvatarsCount = 8;
 var userAvatars = [];
 for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
   userAvatars.push(avatarIndex + 1);
-}
-
-var startX = 300;
-var endX = 901;
-var coordinatesX = [];
-for (var coordXIndex = startX; coordXIndex <= endX; coordXIndex++) {
-  coordinatesX.push(coordXIndex);
-}
-
-var startY = 100;
-var endY = 501;
-var coordinatesY = [];
-for (var coordYIndex = startY; coordYIndex <= endY; coordYIndex++) {
-  coordinatesY.push(coordYIndex);
 }
 
 var getRandomValue = function (arrayLength) {
@@ -33,37 +20,24 @@ var getRandomValue = function (arrayLength) {
   return randomValue;
 };
 
-var getRandomNumber = function (array) {
+var getUniqueRandomElement = function (array) {
   var randVal = getRandomValue(array.length);
   var result = array.splice(randVal, 1)[0];
 
   return result;
 };
 
-var getRandomPrice = function (priceStart, priceEnd) {
-  var randomNumber = Math.floor(priceStart + Math.random() * priceEnd);
-  return randomNumber;
+var getRandomElement = function (array) {
+  var result = getRandomValue(array.length);
+
+  return array[result];
 };
 
-var getRandomType = function () {
-  var randomNumber = Math.floor(Math.random() * placeTypes.length);
-  return placeTypes[randomNumber];
-};
-
-var getRandomCheckIn = function () {
-  var randomNumber = Math.floor(Math.random() * checkInTimeMarks.length);
-  return checkInTimeMarks[randomNumber];
-};
-
-var getRandomCheckOut = function () {
-  var randomNumber = Math.floor(Math.random() * checkOutTimeMarks.length);
-  return checkOutTimeMarks[randomNumber];
-};
-
-var getRandomCount = function (minCount, maxCount) {
-  var randomNumber = Math.floor(minCount + Math.random() * maxCount);
-  return randomNumber;
-};
+var getRandomNumber = function (min, max) {
+  var result = Math.round(Math.random() * (max - min) + min);
+  
+  return result;
+}
 
 var getFeatures = function () {
   var fixedOfferFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -89,21 +63,21 @@ var getChangeableTypes = function (type) {
 };
 
 var renderAdvertisements = function () {
-  var locationX = getRandomNumber(coordinatesX);
-  var locationY = getRandomNumber(coordinatesY);
+  var locationX = getRandomNumber(300, 900);
+  var locationY = getRandomNumber(100, 500);
   var advertisement = {
     'author': {
-      'avatar': 'img/avatars/user0' + getRandomNumber(userAvatars) + '.png'
+      'avatar': 'img/avatars/user0' + getUniqueRandomElement(userAvatars) + '.png'
     },
     'offer': {
-      'title': getRandomNumber(fixedOfferTitles),
+      'title': getUniqueRandomElement(fixedOfferTitles),
       'address': locationX + ', ' + locationY,
-      'price': getRandomPrice(1000, 999000),
-      'type': getRandomType(),
-      'rooms': getRandomCount(1, 5),
-      'guests': getRandomCount(1, 10),
-      'checkin': getRandomCheckIn(),
-      'checkout': getRandomCheckOut(),
+      'price': getRandomNumber(1000, 999000),
+      'type': getRandomElement(placeTypes),
+      'rooms': getRandomNumber(1, 5),
+      'guests': getRandomNumber(1, 10),
+      'checkin': getRandomElement(checkInTimeMarks),
+      'checkout': getRandomElement(checkOutTimeMarks),
       'features': getFeatures(),
       'description': '',
       'photos': []
