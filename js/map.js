@@ -12,6 +12,12 @@ for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
   userAvatars.push(avatarIndex + 1);
 }
 
+var fragment = document.createDocumentFragment();
+var mapBlock = document.querySelector('.map');
+var mapPins = mapBlock.querySelector('.map__pins');
+var mapFiltersContainer = mapBlock.querySelector('.map__filters-container');
+var template = document.querySelector('template').content.querySelector('.map__card');
+
 var getRandomValue = function (arrayLength) {
   var min = 0;
   var max = arrayLength - 1;
@@ -57,54 +63,54 @@ var getChangeableTypes = function (type) {
   return type;
 };
 
-var renderAdvertisements = function () {
-  var locationX = getRandomNumber(300, 900);
-  var locationY = getRandomNumber(100, 500);
-  var advertisement = {
-    'author': {
-      'avatar': 'img/avatars/user0' + getUniqueRandomElement(userAvatars) + '.png'
-    },
-    'offer': {
-      'title': getUniqueRandomElement(fixedOfferTitles),
-      'address': locationX + ', ' + locationY,
-      'price': getRandomNumber(1000, 999000),
-      'type': getRandomElement(placeTypes),
-      'rooms': getRandomNumber(1, 5),
-      'guests': getRandomNumber(1, 10),
-      'checkin': getRandomElement(checkInTimeMarks),
-      'checkout': getRandomElement(checkOutTimeMarks),
-      'features': getFeatures(),
-      'description': '',
-      'photos': []
-    },
-    'location': {
-      'x': locationX,
-      'y': locationY
-    }
-  };
+var advertisements = [];
 
-  return advertisement;
+var renderAdvertisements = function () {
+  for (var i = 0; i < advCount; i++) {
+    var locationX = getRandomNumber(300, 900);
+    var locationY = getRandomNumber(100, 500);
+    advertisements[i] = {
+      'author': {
+        'avatar': 'img/avatars/user0' + getUniqueRandomElement(userAvatars) + '.png'
+      },
+      'offer': {
+        'title': getUniqueRandomElement(fixedOfferTitles),
+        'address': locationX + ', ' + locationY,
+        'price': getRandomNumber(1000, 999000),
+        'type': getRandomElement(placeTypes),
+        'rooms': getRandomNumber(1, 5),
+        'guests': getRandomNumber(1, 10),
+        'checkin': getRandomElement(checkInTimeMarks),
+        'checkout': getRandomElement(checkOutTimeMarks),
+        'features': getFeatures(),
+        'description': '',
+        'photos': []
+      },
+      'location': {
+        'x': locationX,
+        'y': locationY
+      }
+    };
+  }
+
+  
 };
 
-var fragmentPin = document.createDocumentFragment();
-var fragmentCard = document.createDocumentFragment();
+renderAdvertisements();
 
-var mapElement = document.querySelector('.map');
-var mapPinElement = mapElement.querySelector('.map__pins');
-var mapFiltersContainer = mapElement.querySelector('.map__filters-container');
-var template = document.querySelector('template').content.querySelector('.map__card');
-
-mapElement.classList.remove('map--faded');
+mapBlock.classList.remove('map--faded');
 
 var renderMapPins = function (advertisement) {
-  var mapPin = document.createElement('button');
   var mapPinWidth = 40;
   var mapPinHeight = 62;
+  for (var i = 0; i < advertisements.length; i++) {
+    var mapPin = document.createElement('button');
 
-  mapPin.className = 'map__pin';
-  mapPin.style.left = advertisement.location.x - mapPinWidth / 2 + 'px';
-  mapPin.style.top = advertisement.location.y + mapPinHeight + 'px';
-  mapPin.innerHTML = '<img src="' + advertisement.author.avatar + '" width="40" height="40" draggable="false">';
+    mapPin.className = 'map__pin';
+    mapPin.style.left = advertisement[i].location.x - mapPinWidth / 2 + 'px';
+    mapPin.style.top = advertisement[i].location.y + mapPinHeight + 'px';
+    mapPin.innerHTML = '<img src="' + advertisement[i].author.avatar + '" width="40" height="40" draggable="false">';
+  }
 
   return mapPin;
 };
@@ -132,14 +138,6 @@ var renderMapCards = function (advertisement) {
   return mapCard;
 };
 
-for (var stepCreateIndex = 0; stepCreateIndex < advCount; stepCreateIndex++) {
-  var advertisement = renderAdvertisements();
-  var mapPins = renderMapPins(advertisement);
-  var mapCards = renderMapCards(advertisement);
+fragment.appendChild(renderMapPins(advertisements));
 
-  fragmentPin.appendChild(mapPins);
-  fragmentCard.appendChild(mapCards);
-}
-
-mapPinElement.appendChild(fragmentPin);
-mapElement.insertBefore(fragmentCard, mapFiltersContainer);
+mapPins.appendChild(fragment);
