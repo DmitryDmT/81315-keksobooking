@@ -15,8 +15,11 @@ for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
 var fragment = document.createDocumentFragment();
 var mapBlock = document.querySelector('.map');
 var mapPins = mapBlock.querySelector('.map__pins');
+var mapPinMain = mapPins.querySelector('.map__pin--main');
 var mapFiltersContainer = mapBlock.querySelector('.map__filters-container');
 var template = document.querySelector('template').content.querySelector('.map__card');
+var noticeForm = document.querySelector('.notice__form');
+var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
 
 var getRandomValue = function (arrayLength) {
   var min = 0;
@@ -93,12 +96,10 @@ var renderAdvertisements = function () {
     };
   }
 
-  
+  return advertisements;
 };
 
 renderAdvertisements();
-
-mapBlock.classList.remove('map--faded');
 
 var renderMapPins = function (advertisement) {
   var mapPinWidth = 40;
@@ -110,34 +111,57 @@ var renderMapPins = function (advertisement) {
     mapPin.style.left = advertisement[i].location.x - mapPinWidth / 2 + 'px';
     mapPin.style.top = advertisement[i].location.y + mapPinHeight + 'px';
     mapPin.innerHTML = '<img src="' + advertisement[i].author.avatar + '" width="40" height="40" draggable="false">';
+
+    fragment.appendChild(mapPin);
   }
 
-  return mapPin;
+  return fragment;
 };
 
 var renderMapCards = function (advertisement) {
   var mapCard = template.cloneNode(true);
 
-  mapCard.querySelector('h3').textContent = advertisement.offer.title;
-  mapCard.querySelector('p:nth-of-type(1)').textContent = advertisement.offer.address;
-  mapCard.querySelector('.popup__price').innerHTML = advertisement.offer.price + '&#x20bd;/ночь';
-  mapCard.querySelector('h4').textContent = getChangeableTypes(advertisement.offer.type);
-  mapCard.querySelector('p:nth-of-type(3)').textContent = advertisement.offer.rooms + ' для ' + advertisement.offer.guests + ' гостей';
-  mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout;
+  mapCard.querySelector('h3').textContent = advertisement[0].offer.title;
+  mapCard.querySelector('p:nth-of-type(1)').textContent = advertisement[0].offer.address;
+  mapCard.querySelector('.popup__price').innerHTML = advertisement[0].offer.price + '&#x20bd;/ночь';
+  mapCard.querySelector('h4').textContent = getChangeableTypes(advertisement[0].offer.type);
+  mapCard.querySelector('p:nth-of-type(3)').textContent = advertisement[0].offer.rooms + ' для ' + advertisement[0].offer.guests + ' гостей';
+  mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + advertisement[0].offer.checkin + ', выезд до ' + advertisement[0].offer.checkout;
   mapCard.querySelector('.popup__features').innerHTML = '';
-  mapCard.querySelector('p:last-of-type').textContent = advertisement.offer.description;
-  for (var stepLiIndex = 0; stepLiIndex < advertisement.offer.features.length; stepLiIndex++) {
+  mapCard.querySelector('p:last-of-type').textContent = advertisement[0].offer.description;
+  for (var stepLiIndex = 0; stepLiIndex < advertisement[0].offer.features.length; stepLiIndex++) {
     var featureElement = document.createElement('li');
 
-    featureElement.classList.add('feature', 'feature--' + advertisement.offer.features[stepLiIndex]);
+    featureElement.classList.add('feature', 'feature--' + advertisement[0].offer.features[stepLiIndex]);
     mapCard.querySelector('.popup__features').appendChild(featureElement);
   }
 
-  mapCard.querySelector('.popup__avatar').setAttribute('src', advertisement.author.avatar);
+  mapCard.querySelector('.popup__avatar').setAttribute('src', advertisement[0].author.avatar);
 
   return mapCard;
 };
 
-fragment.appendChild(renderMapPins(advertisements));
+var getDisabledForm = function () {
+  for (var i = 0; i < noticeFormFieldsets.length; i++) {
+    noticeFormFieldsets[i].setAttribute('disabled', 'disabled');
+  }
+};
 
-mapPins.appendChild(fragment);
+var getEnabledForm = function () {
+  renderMapPins(advertisements);
+  mapPins.appendChild(fragment);
+  noticeForm.classList.remove('notice__form--disabled');
+  for (var i = 0; i < noticeFormFieldsets.length; i++) {
+    noticeFormFieldsets[i].removeAttribute('disabled');
+  }
+};
+
+getDisabledForm();
+
+//var mapCard = renderMapCards(advertisements);
+//mapBlock.insertBefore(mapCard, mapFiltersContainer);
+
+mapPinMain.addEventListener('mouseup', function () {
+  mapBlock.classList.remove('map--faded');
+  getEnabledForm();
+});
