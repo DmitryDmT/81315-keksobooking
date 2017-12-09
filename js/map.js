@@ -1,4 +1,6 @@
 'use strict';
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 var advCount = 8;
 var fixedOfferTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var placeTypes = ['flat', 'house', 'bungalo'];
@@ -169,15 +171,23 @@ var mapPinNotActive = function () {
 
 var getPopupOpen = function (clickedElement) {
   if (clickedElement.dataset.adIndex) {
-      var advertisement = advertisements[clickedElement.dataset.adIndex];
-      currentPopup = renderMapCards(advertisement);
-      popupCloseButton = currentPopup.querySelector('.popup__close');
-      popupCloseButton.addEventListener('click', function () {
-        getPopupClose();
-        mapPinNotActive();
-      });
-      mapBlock.insertBefore(currentPopup, mapFiltersContainer);
-    }
+    var advertisement = advertisements[clickedElement.dataset.adIndex];
+    currentPopup = renderMapCards(advertisement);
+    popupCloseButton = currentPopup.querySelector('.popup__close');
+    
+    popupCloseButton.addEventListener('click', function () {
+      getPopupClose();
+      mapPinNotActive();
+    });
+//    document.addEventListener('keydown', function (evt) {
+//      if (evt.keyCode === ESC_KEYCODE) {
+//        getPopupClose();
+//        mapPinNotActive();
+//      }
+//    });
+    
+    mapBlock.insertBefore(currentPopup, mapFiltersContainer);
+  }
 };
 
 var getPopupClose = function () {
@@ -185,8 +195,14 @@ var getPopupClose = function () {
     mapBlock.removeChild(currentPopup);
     currentPopup = null;
   }
-  
-  return currentPopup;
+};
+
+var getPinsAndPopupActivate = function (target) {
+  clickedElement = target;
+  if (clickedElement.classList.contains('map__pin')) {
+    clickedElement.classList.add('map__pin--active');
+    getPopupOpen(clickedElement);
+  }
 };
 
 var mapPinMainMouseUpHandler = function () {
@@ -197,11 +213,17 @@ var mapPinMainMouseUpHandler = function () {
 var mapPinClickHandler = function (evt) {
   mapPinNotActive();
   getPopupClose();
-  
-  clickedElement = evt.target.parentNode;
-  if (clickedElement.classList.contains('map__pin')) {
-    clickedElement.classList.add('map__pin--active');
-    getPopupOpen(clickedElement);
+  getPinsAndPopupActivate(evt.target.parentNode);
+};
+
+var mapPinKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    mapPinNotActive();
+    getPopupClose();
+    getPinsAndPopupActivate(evt.target);
+  } else if (evt.keyCode === ESC_KEYCODE) {
+    mapPinNotActive();
+    getPopupClose();
   }
 };
 
@@ -210,3 +232,4 @@ getDisabledMap();
 mapPinMain.addEventListener('mouseup', mapPinMainMouseUpHandler);
 
 mapPins.addEventListener('click', mapPinClickHandler);
+mapPins.addEventListener('keydown', mapPinKeydownHandler);
