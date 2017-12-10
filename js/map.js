@@ -163,28 +163,25 @@ var getEnabledMap = function () {
   }
 };
 
-var mapPinNotActive = function () {
-  var mapPinActive = mapPins.querySelector('.map__pin--active');
-  if (mapPinActive) {
-    mapPinActive.classList.remove('map__pin--active');
-  }
-};
-
 var getPopupOpen = function (clickedElement) {
   if (clickedElement.dataset.adIndex) {
     var advertisement = advertisements[clickedElement.dataset.adIndex];
     currentPopup = renderMapCards(advertisement);
     popupCloseButton = currentPopup.querySelector('.popup__close');
-    
     popupCloseButton.addEventListener('click', popupCloseButtonClickHandler);
     popupCloseButton.addEventListener('keydown', enterCloseKeydownHandler);
     document.addEventListener('keydown', escCloseKeydownHandler);
-    
+
     mapBlock.insertBefore(currentPopup, mapFiltersContainer);
   }
 };
 
 var getPopupClose = function () {
+  var mapPinActive = mapPins.querySelector('.map__pin--active');
+  if (mapPinActive) {
+    mapPinActive.classList.remove('map__pin--active');
+  }
+
   if (currentPopup) {
     mapBlock.removeChild(currentPopup);
     currentPopup = null;
@@ -194,57 +191,53 @@ var getPopupClose = function () {
 var escCloseKeydownHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     getPopupClose();
-    mapPinNotActive();
   }
-  
+
   document.removeEventListener('keydown', escCloseKeydownHandler);
 };
 
 var popupCloseButtonClickHandler = function () {
   getPopupClose();
-  mapPinNotActive();
-  
+
   popupCloseButton.removeEventListener('click', popupCloseButtonClickHandler);
 };
 
 var enterCloseKeydownHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     getPopupClose();
-    mapPinNotActive();
   }
-  
+
   popupCloseButton.removeEventListener('keydown', enterCloseKeydownHandler);
+};
+
+var getPinAndPopupActivate = function (target) {
+  clickedElement = target;
+  clickedElement.classList.add('map__pin--active');
+  getPopupOpen(clickedElement);
 };
 
 var mapPinMainMouseUpHandler = function () {
   mapBlock.classList.remove('map--faded');
   getEnabledMap();
-  
+
   mapPinMain.removeEventListener('mouseup', mapPinMainMouseUpHandler);
 };
 
 var mapPinClickHandler = function (evt) {
-  mapPinNotActive();
   getPopupClose();
-  
-  clickedElement = evt.target.parentNode;
-  if (clickedElement.classList.contains('map__pin')) {
-    clickedElement.classList.add('map__pin--active');
-    getPopupOpen(clickedElement);
+
+  if (evt.target.parentNode.classList.contains('map__pin')) {
+    getPinAndPopupActivate(evt.target.parentNode);
   } else if (evt.target.classList.contains('map__pin')) {
-    evt.target.classList.add('map__pin--active');
-    getPopupOpen(evt.target);
+    getPinAndPopupActivate(evt.target);
   }
 };
 
 var mapPinKeydownHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     if (evt.target.classList.contains('map__pin')) {
-      mapPinNotActive();
       getPopupClose();
-      clickedElement = evt.target;
-      clickedElement.classList.add('map__pin--active');
-      getPopupOpen(clickedElement);
+      getPinAndPopupActivate(evt.target);
     }
   }
 };
@@ -252,6 +245,5 @@ var mapPinKeydownHandler = function (evt) {
 getDisabledMap();
 
 mapPinMain.addEventListener('mouseup', mapPinMainMouseUpHandler);
-
 mapPins.addEventListener('click', mapPinClickHandler);
 mapPins.addEventListener('keydown', mapPinKeydownHandler);
