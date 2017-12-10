@@ -176,22 +176,9 @@ var getPopupOpen = function (clickedElement) {
     currentPopup = renderMapCards(advertisement);
     popupCloseButton = currentPopup.querySelector('.popup__close');
     
-    popupCloseButton.addEventListener('click', function () {
-      getPopupClose();
-      mapPinNotActive();
-    });
-    popupCloseButton.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        getPopupClose();
-       
-      }
-    });
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        getPopupClose();
-        mapPinNotActive();
-      }
-    });
+    popupCloseButton.addEventListener('click', popupCloseButtonClickHandler);
+    popupCloseButton.addEventListener('keydown', enterCloseKeydownHandler);
+    document.addEventListener('keydown', escCloseKeydownHandler);
     
     mapBlock.insertBefore(currentPopup, mapFiltersContainer);
   }
@@ -202,6 +189,31 @@ var getPopupClose = function () {
     mapBlock.removeChild(currentPopup);
     currentPopup = null;
   }
+};
+
+var escCloseKeydownHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    getPopupClose();
+    mapPinNotActive();
+  }
+  
+  document.removeEventListener('keydown', escCloseKeydownHandler);
+};
+
+var popupCloseButtonClickHandler = function () {
+  getPopupClose();
+  mapPinNotActive();
+  
+  popupCloseButton.removeEventListener('click', popupCloseButtonClickHandler);
+};
+
+var enterCloseKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    getPopupClose();
+    mapPinNotActive();
+  }
+  
+  popupCloseButton.removeEventListener('keydown', enterCloseKeydownHandler);
 };
 
 var mapPinMainMouseUpHandler = function () {
