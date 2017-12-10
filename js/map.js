@@ -163,9 +163,9 @@ var getEnabledMap = function () {
   }
 };
 
-var getPopupOpen = function (clickedElement) {
-  if (clickedElement.dataset.adIndex) {
-    var advertisement = advertisements[clickedElement.dataset.adIndex];
+var getPopupOpen = function (clickedElmnt) {
+  if (clickedElmnt.dataset.adIndex) {
+    var advertisement = advertisements[clickedElmnt.dataset.adIndex];
     currentPopup = renderMapCards(advertisement);
     popupCloseButton = currentPopup.querySelector('.popup__close');
     popupCloseButton.addEventListener('click', popupCloseButtonClickHandler);
