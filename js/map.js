@@ -148,6 +148,8 @@ var renderMapCards = function (advertisement) {
   return mapCard;
 };
 
+// Активация карты, меток и диалоговых окон
+
 var getDisabledMap = function () {
   for (var i = 0; i < noticeFormFieldsets.length; i++) {
     noticeFormFieldsets[i].setAttribute('disabled', 'disabled');
