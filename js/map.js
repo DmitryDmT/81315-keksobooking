@@ -279,26 +279,24 @@ var getAssociatedTypeHouse = function (type, price) {
 };
 
 var getAssociatedRoomsGuests = function (rooms, guests) {
+  for (var i = 0; i < guests.options.length; i++) {
+    guests.options[i].disabled = true;
+  }
+
   if (rooms.value === '1') {
-    guests.options[0].disabled = true;
-    guests.options[1].disabled = true;
-    guests.options[3].disabled = true;
+    guests.options[2].disabled = false;
     guests.value = '1';
   } else if (rooms.value === '2') {
-    guests.options[0].disabled = true;
     guests.options[1].disabled = false;
-    guests.options[3].disabled = true;
+    guests.options[2].disabled = false;
     guests.value = '2';
   } else if (rooms.value === '3') {
     guests.options[0].disabled = false;
     guests.options[1].disabled = false;
-    guests.options[3].disabled = true;
+    guests.options[2].disabled = false;
     guests.value = '3';
   } else if (rooms.value === '100') {
-    guests.options[0].disabled = true;
-    guests.options[1].disabled = true;
-    guests.options[2].disabled = true;
-    guests.options[3].disabled = true;
+    guests.options[3].disabled = false;
     guests.value = '0';
   }
 };
