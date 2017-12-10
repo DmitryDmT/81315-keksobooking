@@ -283,20 +283,32 @@ var getAssociatedRoomsGuests = function (rooms, guests) {
     guests.options[i].disabled = true;
   }
 
+  var roomsObj = {
+    1: [2],
+    2: [1, 2],
+    3: [0, 1, 2],
+    100: [3]
+  };
+
   if (rooms.value === '1') {
-    guests.options[2].disabled = false;
+    roomsObj[rooms.value].forEach(function (num) {
+      guests.options[num].disabled = false;
+    });
     guests.value = '1';
   } else if (rooms.value === '2') {
-    guests.options[1].disabled = false;
-    guests.options[2].disabled = false;
+    roomsObj[rooms.value].forEach(function (num) {
+      guests.options[num].disabled = false;
+    });
     guests.value = '2';
   } else if (rooms.value === '3') {
-    guests.options[0].disabled = false;
-    guests.options[1].disabled = false;
-    guests.options[2].disabled = false;
+    roomsObj[rooms.value].forEach(function (num) {
+      guests.options[num].disabled = false;
+    });
     guests.value = '3';
   } else if (rooms.value === '100') {
-    guests.options[3].disabled = false;
+    roomsObj[rooms.value].forEach(function (num) {
+      guests.options[num].disabled = false;
+    });
     guests.value = '0';
   }
 };
