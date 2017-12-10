@@ -249,3 +249,109 @@ getDisabledMap();
 mapPinMain.addEventListener('mouseup', mapPinMainMouseUpHandler);
 mapPins.addEventListener('click', mapPinClickHandler);
 mapPins.addEventListener('keydown', mapPinKeydownHandler);
+
+// Валидация формы
+
+var selectTimeIn = noticeForm.querySelector('#timein');
+var selectTimeOut = noticeForm.querySelector('#timeout');
+var selectTypeHouse = noticeForm.querySelector('#type');
+var inputPrice = noticeForm.querySelector('#price');
+var selectRoomNumber = noticeForm.querySelector('#room_number');
+var selectCapacity = noticeForm.querySelector('#capacity');
+var inputTitle = noticeForm.querySelector('#title');
+var inputAddress = noticeForm.querySelector('#address');
+
+var getAssociatedTimeInOut = function (optionFirst, optionSecond) {
+  var change = optionFirst.value;
+  optionSecond.value = change;
+};
+
+var getAssociatedTypeHouse = function (type, price) {
+  if (type.value === 'bungalo') {
+    price.min = 0;
+  } else if (type.value === 'flat') {
+    price.min = 1000;
+  } else if (type.value === 'house') {
+    price.min = 5000;
+  } else if (type.value === 'palace') {
+    price.min = 10000;
+  }
+};
+
+var getAssociatedRoomsGuests = function (rooms, guests) {
+  if (rooms.value === '1') {
+    guests.options[0].disabled = true;
+    guests.options[1].disabled = true;
+    guests.options[3].disabled = true;
+    guests.value = '1';
+  } else if (rooms.value === '2') {
+    guests.options[0].disabled = true;
+    guests.options[1].disabled = false;
+    guests.options[3].disabled = true;
+    guests.value = '2';
+  } else if (rooms.value === '3') {
+    guests.options[0].disabled = false;
+    guests.options[1].disabled = false;
+    guests.options[3].disabled = true;
+    guests.value = '3';
+  } else if (rooms.value === '100') {
+    guests.options[0].disabled = true;
+    guests.options[1].disabled = true;
+    guests.options[2].disabled = true;
+    guests.options[3].disabled = true;
+    guests.value = '0';
+  }
+};
+
+selectTimeIn.addEventListener('change', function () {
+  getAssociatedTimeInOut(selectTimeIn, selectTimeOut);
+});
+
+selectTimeOut.addEventListener('change', function () {
+  getAssociatedTimeInOut(selectTimeOut, selectTimeIn);
+});
+
+selectTypeHouse.addEventListener('change', function () {
+  getAssociatedTypeHouse(selectTypeHouse, inputPrice);
+});
+
+selectRoomNumber.addEventListener('change', function () {
+  getAssociatedRoomsGuests(selectRoomNumber, selectCapacity);
+});
+
+inputTitle.addEventListener('invalid', function () {
+  inputTitle.style.borderColor = 'red';
+  if (inputTitle.validity.tooShort) {
+    inputTitle.setCustomValidity('Заголовок должен содержать минимум 30 символов');
+  } else if (inputTitle.validity.tooLong) {
+    inputTitle.setCustomValidity('Заголовок должен содержать максимум 100 символов');
+  } else if (inputTitle.validity.valueMissing) {
+    inputTitle.setCustomValidity('Обязательное поле');
+  } else {
+    inputTitle.setCustomValidity('');
+  }
+});
+
+inputAddress.value = advertisements[0].location.x + ', ' + advertisements[0].location.y;
+
+inputAddress.addEventListener('invalid', function () {
+  inputAddress.style.borderColor = 'red';
+  if (inputAddress.validity.valueMissing) {
+    inputAddress.setCustomValidity('Обязательное поле');
+  } else {
+    inputAddress.setCustomValidity('');
+  }
+});
+
+inputPrice.addEventListener('invalid', function () {
+  inputPrice.style.borderColor = 'red';
+  if (inputPrice.validity.tooShort) {
+    inputPrice.setCustomValidity('Цена устанавливается с 0');
+  } else if (inputPrice.validity.tooLong) {
+    inputPrice.setCustomValidity('Максимальная цена - 1 000 000');
+  } else if (inputTitle.validity.valueMissing) {
+    inputPrice.setCustomValidity('Обязательное поле');
+  } else {
+    inputPrice.setCustomValidity('');
+  }
+});
