@@ -17,13 +17,13 @@ for (var avatarIndex = 0; avatarIndex < userAvatarsCount; avatarIndex++) {
 var fragment = document.createDocumentFragment();
 var mapBlock = document.querySelector('.map');
 var mapPins = mapBlock.querySelector('.map__pins');
-var mapPinElement = mapPins.querySelector('.map__pin');
+// var mapPinElement = mapPins.querySelector('.map__pin');
 var mapPinMain = mapPins.querySelector('.map__pin--main');
 var mapFiltersContainer = mapBlock.querySelector('.map__filters-container');
 var template = document.querySelector('template').content.querySelector('.map__card');
 var noticeForm = document.querySelector('.notice__form');
 var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
-var clickedElement = null;
+var clickedElement;
 var currentPopup = null;
 var popupCloseButton;
 
