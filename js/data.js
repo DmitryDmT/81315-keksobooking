@@ -56,7 +56,7 @@
 
     return advertisements;
   };
-  
+
   renderAdvertisements();
 
   window.data = {

@@ -27,7 +27,7 @@
   var getRandomNumber = function (min, max) {
     return Math.round(Math.random() * (max - min) + min);
   };
-  
+
   window.utils = {
     ENTER_KEYCODE: ENTER_KEYCODE,
     ESC_KEYCODE: ESC_KEYCODE,
