@@ -60,7 +60,6 @@
   renderAdvertisements();
 
   window.data = {
-    renderAdvertisements: renderAdvertisements,
     advertisements: advertisements
   };
 })();

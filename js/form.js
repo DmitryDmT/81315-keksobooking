@@ -106,8 +106,6 @@
     }
   });
 
-  inputAddress.value = window.data.advertisements[0].location.x + ', ' + window.data.advertisements[0].location.y;
-
   inputAddress.addEventListener('invalid', function () {
     inputAddress.style.borderColor = 'red';
     if (inputAddress.validity.valueMissing) {
@@ -131,6 +129,7 @@
   });
 
   window.form = {
+    inputAddress: inputAddress,
     getDisabledForm: getDisabledForm,
     getEnabledForm: getEnabledForm
   };
