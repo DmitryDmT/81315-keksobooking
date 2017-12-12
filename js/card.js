@@ -14,11 +14,8 @@
     };
 
     for (var key in placesObj) {
-      if (type === key) {
-        return placesObj[key];
-      }
+      return placesObj[type];
     }
-    return type;
   };
 
   var renderMapCards = function (advertisement) {
