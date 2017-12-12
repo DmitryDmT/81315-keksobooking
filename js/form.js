@@ -56,11 +56,9 @@
 
     roomsObj[rooms.value].forEach(function (num) {
       guests.options[num].disabled = false;
-      for (var key in roomsObj) {
-        guests.value = rooms.value;
-        if (rooms.value === '100') {
-          guests.value = '0';
-        }
+      guests.value = rooms.value;
+      if (rooms.value === '100') {
+        guests.value = '0';
       }
     });
   };
