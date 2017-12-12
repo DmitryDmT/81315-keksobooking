@@ -54,27 +54,17 @@
       100: [3]
     };
 
-    if (rooms.value === '1') {
-      roomsObj[rooms.value].forEach(function (num) {
-        guests.options[num].disabled = false;
-      });
-      guests.value = '1';
-    } else if (rooms.value === '2') {
-      roomsObj[rooms.value].forEach(function (num) {
-        guests.options[num].disabled = false;
-      });
-      guests.value = '2';
-    } else if (rooms.value === '3') {
-      roomsObj[rooms.value].forEach(function (num) {
-        guests.options[num].disabled = false;
-      });
-      guests.value = '3';
-    } else if (rooms.value === '100') {
-      roomsObj[rooms.value].forEach(function (num) {
-        guests.options[num].disabled = false;
-      });
-      guests.value = '0';
-    }
+    roomsObj[rooms.value].forEach(function (num) {
+      guests.options[num].disabled = false;
+      for (var key in roomsObj) {
+        if (key === rooms.value) {
+          guests.value = key;
+          if (rooms.value === '100') {
+            guests.value = '0';
+          }
+        }
+      }
+    });
   };
 
   selectTimeIn.addEventListener('change', function () {

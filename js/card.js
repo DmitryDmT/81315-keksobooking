@@ -7,14 +7,17 @@
   var popupCloseButton;
 
   var getChangeableTypes = function (type) {
-    if (type === 'flat') {
-      return 'Квартира';
-    } else if (type === 'bungalo') {
-      return 'Бунгало';
-    } else if (type === 'house') {
-      return 'Дом';
-    }
+    var placesObj = {
+      flat: 'Квартира',
+      bungalo: 'Бунгало',
+      house: 'Дом'
+    };
 
+    for (var key in placesObj) {
+      if (type === key) {
+        return placesObj[key];
+      }
+    }
     return type;
   };
 

@@ -60,6 +60,7 @@
   renderAdvertisements();
 
   window.data = {
-    advertisements: advertisements
+    advertisements: advertisements,
+    placeTypes: placeTypes
   };
 })();
