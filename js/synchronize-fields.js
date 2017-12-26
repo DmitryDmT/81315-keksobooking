@@ -8,7 +8,7 @@
         value = secondArray[i];
       }
     }
-    
+
     if (typeof callback === 'function') {
       callback(secondElement, value);
     }
