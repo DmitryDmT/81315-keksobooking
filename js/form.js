@@ -75,7 +75,7 @@
   });
 
   selectTimeOut.addEventListener('change', function () {
-    getAssociatedTimeInOut(selectTimeOut, selectTimeIn);
+    window.synchronizeFields(selectTimeOut, selectTimeIn, checkOutTimeMarks, checkInTimeMarks, syncValues);
   });
 
   selectTypeHouse.addEventListener('change', function () {
