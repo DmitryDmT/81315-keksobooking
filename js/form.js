@@ -11,6 +11,12 @@
   var selectCapacity = noticeForm.querySelector('#capacity');
   var inputTitle = noticeForm.querySelector('#title');
   var inputAddress = noticeForm.querySelector('#address');
+  var checkInTimeMarks = ['12:00', '13:00', '14:00'];
+  var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
+  
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
 
   var getDisabledForm = function () {
     for (var i = 0; i < noticeFormFieldsets.length; i++) {
@@ -65,7 +71,7 @@
   };
 
   selectTimeIn.addEventListener('change', function () {
-    getAssociatedTimeInOut(selectTimeIn, selectTimeOut);
+    window.synchronizeFields(selectTimeIn, selectTimeOut, checkInTimeMarks, checkOutTimeMarks, syncValues);
   });
 
   selectTimeOut.addEventListener('change', function () {
