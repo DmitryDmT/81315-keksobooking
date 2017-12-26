@@ -11,11 +11,18 @@
   var selectCapacity = noticeForm.querySelector('#capacity');
   var inputTitle = noticeForm.querySelector('#title');
   var inputAddress = noticeForm.querySelector('#address');
-  var checkInTimeMarks = ['12:00', '13:00', '14:00'];
-  var checkOutTimeMarks = ['12:00', '13:00', '14:00'];
-  
+
+  var typesArr = ['bungalo', 'flat', 'house', 'palace'];
+  var priceArr = [0, 1000, 5000, 10000];
+  var checkInTimeArr = ['12:00', '13:00', '14:00'];
+  var checkOutTimeArr = ['12:00', '13:00', '14:00'];
+
   var syncValues = function (element, value) {
     element.value = value;
+  };
+
+  var syncValueWithType = function (element, value) {
+    element.min = value;
   };
 
   var getDisabledForm = function () {
@@ -28,23 +35,6 @@
     noticeForm.classList.remove('notice__form--disabled');
     for (var i = 0; i < noticeFormFieldsets.length; i++) {
       noticeFormFieldsets[i].removeAttribute('disabled');
-    }
-  };
-
-  var getAssociatedTimeInOut = function (optionFirst, optionSecond) {
-    var change = optionFirst.value;
-    optionSecond.value = change;
-  };
-
-  var getAssociatedTypeHouse = function (type, price) {
-    if (type.value === 'bungalo') {
-      price.min = 0;
-    } else if (type.value === 'flat') {
-      price.min = 1000;
-    } else if (type.value === 'house') {
-      price.min = 5000;
-    } else if (type.value === 'palace') {
-      price.min = 10000;
     }
   };
 
@@ -71,15 +61,15 @@
   };
 
   selectTimeIn.addEventListener('change', function () {
-    window.synchronizeFields(selectTimeIn, selectTimeOut, checkInTimeMarks, checkOutTimeMarks, syncValues);
+    window.synchronizeFields(selectTimeIn, selectTimeOut, checkInTimeArr, checkOutTimeArr, syncValues);
   });
 
   selectTimeOut.addEventListener('change', function () {
-    window.synchronizeFields(selectTimeOut, selectTimeIn, checkOutTimeMarks, checkInTimeMarks, syncValues);
+    window.synchronizeFields(selectTimeOut, selectTimeIn, checkOutTimeArr, checkInTimeArr, syncValues);
   });
 
   selectTypeHouse.addEventListener('change', function () {
-    getAssociatedTypeHouse(selectTypeHouse, inputPrice);
+    window.synchronizeFields(selectTypeHouse, inputPrice, typesArr, priceArr, syncValueWithType);
   });
 
   selectRoomNumber.addEventListener('change', function () {
