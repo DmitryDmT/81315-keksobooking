@@ -12,6 +12,19 @@
   var inputTitle = noticeForm.querySelector('#title');
   var inputAddress = noticeForm.querySelector('#address');
 
+  var typesArr = ['bungalo', 'flat', 'house', 'palace'];
+  var priceArr = [0, 1000, 5000, 10000];
+  var checkInTimeArr = ['12:00', '13:00', '14:00'];
+  var checkOutTimeArr = ['12:00', '13:00', '14:00'];
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncValueWithType = function (element, value) {
+    element.min = value;
+  };
+
   var getDisabledForm = function () {
     for (var i = 0; i < noticeFormFieldsets.length; i++) {
       noticeFormFieldsets[i].setAttribute('disabled', 'disabled');
@@ -22,23 +35,6 @@
     noticeForm.classList.remove('notice__form--disabled');
     for (var i = 0; i < noticeFormFieldsets.length; i++) {
       noticeFormFieldsets[i].removeAttribute('disabled');
-    }
-  };
-
-  var getAssociatedTimeInOut = function (optionFirst, optionSecond) {
-    var change = optionFirst.value;
-    optionSecond.value = change;
-  };
-
-  var getAssociatedTypeHouse = function (type, price) {
-    if (type.value === 'bungalo') {
-      price.min = 0;
-    } else if (type.value === 'flat') {
-      price.min = 1000;
-    } else if (type.value === 'house') {
-      price.min = 5000;
-    } else if (type.value === 'palace') {
-      price.min = 10000;
     }
   };
 
@@ -65,15 +61,15 @@
   };
 
   selectTimeIn.addEventListener('change', function () {
-    getAssociatedTimeInOut(selectTimeIn, selectTimeOut);
+    window.synchronizeFields(selectTimeIn, selectTimeOut, checkInTimeArr, checkOutTimeArr, syncValues);
   });
 
   selectTimeOut.addEventListener('change', function () {
-    getAssociatedTimeInOut(selectTimeOut, selectTimeIn);
+    window.synchronizeFields(selectTimeOut, selectTimeIn, checkOutTimeArr, checkInTimeArr, syncValues);
   });
 
   selectTypeHouse.addEventListener('change', function () {
-    getAssociatedTypeHouse(selectTypeHouse, inputPrice);
+    window.synchronizeFields(selectTypeHouse, inputPrice, typesArr, priceArr, syncValueWithType);
   });
 
   selectRoomNumber.addEventListener('change', function () {
