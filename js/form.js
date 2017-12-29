@@ -16,6 +16,8 @@
   var priceArr = [0, 1000, 5000, 10000];
   var checkInTimeArr = ['12:00', '13:00', '14:00'];
   var checkOutTimeArr = ['12:00', '13:00', '14:00'];
+  
+  inputAddress.value = 'x: 0, y: 0';
 
   var syncValues = function (element, value) {
     element.value = value;
@@ -58,6 +60,18 @@
     if (rooms.value === '100') {
       guests.value = '0';
     }
+  };
+
+  var getAfterLoadCondition = function () {
+    selectTimeIn.value = '12:00';
+    selectTimeOut.value = '12:00';
+    selectTypeHouse.value = 'flat';
+    inputPrice.value = '1000';
+    selectRoomNumber.value = '1';
+    selectCapacity.value = '1';
+    inputTitle.value = '';
+    inputAddress.value = 'x: 0, y: 0';
+    alert('Форма успешно отправлена');
   };
 
   selectTimeIn.addEventListener('change', function () {
@@ -109,6 +123,15 @@
     } else {
       inputPrice.setCustomValidity('');
     }
+  });
+
+  noticeForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(noticeForm), function (response) {
+      getAfterLoadCondition();
+    }, function (message) {
+      alert(message);
+    });
+    evt.preventDefault();
   });
 
   window.form = {
