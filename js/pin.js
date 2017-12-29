@@ -23,12 +23,8 @@
   };
 
   var getEnabledPins = function () {
-    window.load(function (response) {
-      var renderedMapPins = renderMapPins(window.data.advertisements);
-      mapPins.appendChild(renderedMapPins);
-    }, function (message) {
-      alert(message);
-    });
+    var renderedMapPins = renderMapPins(window.data.advertisements);
+    mapPins.appendChild(renderedMapPins);
   };
 
   window.pin = {
