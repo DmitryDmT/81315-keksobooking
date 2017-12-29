@@ -50,7 +50,7 @@
       }
       mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
 
-      window.form.inputAddress.value = 'x: ' + (mapPinMain.offsetLeft - shift.x) + ', ' + 'y: ' + (mapPinMain.offsetTop - shift.y + PIN_MAIN_HEIGHT);
+      window.form.noticeInputAddress.value = 'x: ' + (mapPinMain.offsetLeft - shift.x) + ', ' + 'y: ' + (mapPinMain.offsetTop - shift.y + PIN_MAIN_HEIGHT);
     };
 
     var mouseUpHandler = function (upEvt) {

@@ -3,21 +3,21 @@
 (function () {
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldsets = noticeForm.querySelectorAll('fieldset');
-  var selectTimeIn = noticeForm.querySelector('#timein');
-  var selectTimeOut = noticeForm.querySelector('#timeout');
-  var selectTypeHouse = noticeForm.querySelector('#type');
-  var inputPrice = noticeForm.querySelector('#price');
-  var selectRoomNumber = noticeForm.querySelector('#room_number');
-  var selectCapacity = noticeForm.querySelector('#capacity');
-  var inputTitle = noticeForm.querySelector('#title');
-  var inputAddress = noticeForm.querySelector('#address');
+  var noticeSelectTimeIn = noticeForm.querySelector('#timein');
+  var noticeSelectTimeOut = noticeForm.querySelector('#timeout');
+  var noticeSelectTypeHouse = noticeForm.querySelector('#type');
+  var noticeInputPrice = noticeForm.querySelector('#price');
+  var noticeSelectRoomNumber = noticeForm.querySelector('#room_number');
+  var noticeSelectCapacity = noticeForm.querySelector('#capacity');
+  var noticeInputTitle = noticeForm.querySelector('#title');
+  var noticeInputAddress = noticeForm.querySelector('#address');
 
   var typesArr = ['bungalo', 'flat', 'house', 'palace'];
   var priceArr = [0, 1000, 5000, 10000];
   var checkInTimeArr = ['12:00', '13:00', '14:00'];
   var checkOutTimeArr = ['12:00', '13:00', '14:00'];
 
-  inputAddress.value = 'x: 0, y: 0';
+  noticeInputAddress.value = 'x: 0, y: 0';
 
   var syncValues = function (element, value) {
     element.value = value;
@@ -63,65 +63,65 @@
   };
 
   var getAfterLoadCondition = function () {
-    selectTimeIn.value = '12:00';
-    selectTimeOut.value = '12:00';
-    selectTypeHouse.value = 'flat';
-    inputPrice.value = '1000';
-    selectRoomNumber.value = '1';
-    selectCapacity.value = '1';
-    inputTitle.value = '';
-    inputAddress.value = 'x: 0, y: 0';
+    noticeSelectTimeIn.value = '12:00';
+    noticeSelectTimeOut.value = '12:00';
+    noticeSelectTypeHouse.value = 'flat';
+    noticeInputPrice.value = '1000';
+    noticeSelectRoomNumber.value = '1';
+    noticeSelectCapacity.value = '1';
+    noticeInputTitle.value = '';
+    noticeInputAddress.value = 'x: 0, y: 0';
     alert('Форма успешно отправлена');
   };
 
-  selectTimeIn.addEventListener('change', function () {
-    window.synchronizeFields(selectTimeIn, selectTimeOut, checkInTimeArr, checkOutTimeArr, syncValues);
+  noticeSelectTimeIn.addEventListener('change', function () {
+    window.synchronizeFields(noticeSelectTimeIn, noticeSelectTimeOut, checkInTimeArr, checkOutTimeArr, syncValues);
   });
 
-  selectTimeOut.addEventListener('change', function () {
-    window.synchronizeFields(selectTimeOut, selectTimeIn, checkOutTimeArr, checkInTimeArr, syncValues);
+  noticeSelectTimeOut.addEventListener('change', function () {
+    window.synchronizeFields(noticeSelectTimeOut, noticeSelectTimeIn, checkOutTimeArr, checkInTimeArr, syncValues);
   });
 
-  selectTypeHouse.addEventListener('change', function () {
-    window.synchronizeFields(selectTypeHouse, inputPrice, typesArr, priceArr, syncValueWithType);
+  noticeSelectTypeHouse.addEventListener('change', function () {
+    window.synchronizeFields(noticeSelectTypeHouse, noticeInputPrice, typesArr, priceArr, syncValueWithType);
   });
 
-  selectRoomNumber.addEventListener('change', function () {
-    getAssociatedRoomsGuests(selectRoomNumber, selectCapacity);
+  noticeSelectRoomNumber.addEventListener('change', function () {
+    getAssociatedRoomsGuests(noticeSelectRoomNumber, noticeSelectCapacity);
   });
 
-  inputTitle.addEventListener('invalid', function () {
-    inputTitle.style.borderColor = 'red';
-    if (inputTitle.validity.tooShort) {
-      inputTitle.setCustomValidity('Заголовок должен содержать минимум 30 символов');
-    } else if (inputTitle.validity.tooLong) {
-      inputTitle.setCustomValidity('Заголовок должен содержать максимум 100 символов');
-    } else if (inputTitle.validity.valueMissing) {
-      inputTitle.setCustomValidity('Обязательное поле');
+  noticeInputTitle.addEventListener('invalid', function () {
+    noticeInputTitle.style.borderColor = 'red';
+    if (noticeInputTitle.validity.tooShort) {
+      noticeInputTitle.setCustomValidity('Заголовок должен содержать минимум 30 символов');
+    } else if (noticeInputTitle.validity.tooLong) {
+      noticeInputTitle.setCustomValidity('Заголовок должен содержать максимум 100 символов');
+    } else if (noticeInputTitle.validity.valueMissing) {
+      noticeInputTitle.setCustomValidity('Обязательное поле');
     } else {
-      inputTitle.setCustomValidity('');
+      noticeInputTitle.setCustomValidity('');
     }
   });
 
-  inputAddress.addEventListener('invalid', function () {
-    inputAddress.style.borderColor = 'red';
-    if (inputAddress.validity.valueMissing) {
-      inputAddress.setCustomValidity('Обязательное поле');
+  noticeInputAddress.addEventListener('invalid', function () {
+    noticeInputAddress.style.borderColor = 'red';
+    if (noticeInputAddress.validity.valueMissing) {
+      noticeInputAddress.setCustomValidity('Обязательное поле');
     } else {
-      inputAddress.setCustomValidity('');
+      noticeInputAddress.setCustomValidity('');
     }
   });
 
-  inputPrice.addEventListener('invalid', function () {
-    inputPrice.style.borderColor = 'red';
-    if (inputPrice.validity.tooShort) {
-      inputPrice.setCustomValidity('Цена устанавливается с 0');
-    } else if (inputPrice.validity.tooLong) {
-      inputPrice.setCustomValidity('Максимальная цена - 1 000 000');
-    } else if (inputTitle.validity.valueMissing) {
-      inputPrice.setCustomValidity('Обязательное поле');
+  noticeInputPrice.addEventListener('invalid', function () {
+    noticeInputPrice.style.borderColor = 'red';
+    if (noticeInputPrice.validity.tooShort) {
+      noticeInputPrice.setCustomValidity('Цена устанавливается с 0');
+    } else if (noticeInputPrice.validity.tooLong) {
+      noticeInputPrice.setCustomValidity('Максимальная цена - 1 000 000');
+    } else if (noticeInputPrice.validity.valueMissing) {
+      noticeInputPrice.setCustomValidity('Обязательное поле');
     } else {
-      inputPrice.setCustomValidity('');
+      noticeInputPrice.setCustomValidity('');
     }
   });
 
@@ -135,7 +135,7 @@
   });
 
   window.form = {
-    inputAddress: inputAddress,
+    noticeInputAddress: noticeInputAddress,
     getDisabledForm: getDisabledForm,
     getEnabledForm: getEnabledForm
   };

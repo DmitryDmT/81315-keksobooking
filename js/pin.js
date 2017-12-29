@@ -1,9 +1,16 @@
 'use strict';
 
 (function () {
-  var mapPins = window.utils.mapBlock.querySelector('.map__pins');
   var PINS_QUANTITY = 5;
+  var mapPins = window.utils.mapBlock.querySelector('.map__pins');
 
+  var filtersForm = document.querySelector('.map__filters');
+  var filtersHouseType = filtersForm.querySelector('#housing-type');
+  var filtersHousePrice = filtersForm.querySelector('#housing-price');
+  var filtersHouseRooms = filtersForm.querySelector('#housing-rooms');
+  var filtersHouseGuests = filtersForm.querySelector('#housing-guests');
+  var filtersHouseFeatures = filtersForm.querySelector('#housing-features');
+  
   var renderMapPins = function (advertisement) {
     var fragment = document.createDocumentFragment();
     var mapPinWidth = 40;
