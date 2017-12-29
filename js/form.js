@@ -16,7 +16,7 @@
   var priceArr = [0, 1000, 5000, 10000];
   var checkInTimeArr = ['12:00', '13:00', '14:00'];
   var checkOutTimeArr = ['12:00', '13:00', '14:00'];
-  
+
   inputAddress.value = 'x: 0, y: 0';
 
   var syncValues = function (element, value) {
