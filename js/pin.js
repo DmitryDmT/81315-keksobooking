@@ -2,12 +2,13 @@
 
 (function () {
   var mapPins = window.utils.mapBlock.querySelector('.map__pins');
+  var PINS_QUANTITY = 5;
 
   var renderMapPins = function (advertisement) {
     var fragment = document.createDocumentFragment();
     var mapPinWidth = 40;
     var mapPinHeight = 62;
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < PINS_QUANTITY; i++) {
       var mapPin = document.createElement('button');
 
       mapPin.className = 'map__pin';
