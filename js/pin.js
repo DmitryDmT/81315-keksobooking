@@ -7,7 +7,7 @@
     var fragment = document.createDocumentFragment();
     var mapPinWidth = 40;
     var mapPinHeight = 62;
-    for (var i = 0; i < window.data.advertisements.length; i++) {
+    for (var i = 0; i < 5; i++) {
       var mapPin = document.createElement('button');
 
       mapPin.className = 'map__pin';

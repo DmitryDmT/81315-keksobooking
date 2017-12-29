@@ -8,7 +8,9 @@
 
   var mapPinMainMouseUpHandler = function () {
     window.utils.mapBlock.classList.remove('map--faded');
-    window.pin.getEnabledPins();
+    window.load(window.pin.getEnabledPins, function (message) {
+      alert(message);
+    });
     window.form.getEnabledForm();
 
     mapPinMain.removeEventListener('mouseup', mapPinMainMouseUpHandler);

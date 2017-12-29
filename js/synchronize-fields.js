@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   window.synchronizeFields = function (firstElement, secondElement, firstArray, secondArray, callback) {
     var value = firstElement.value;
     for (var i = 0; i < firstArray.length; i++) {
