@@ -65,7 +65,7 @@
 
   var getPopupOpen = function (clickedElmnt) {
     if (clickedElmnt.dataset.adIndex) {
-      var advertisement = window.data.advertisements[clickedElmnt.dataset.adIndex];
+      var advertisement = window.advertisements[clickedElmnt.dataset.adIndex];
       currentPopup = window.card.renderMapCards(advertisement);
       popupCloseButton = currentPopup.querySelector('.popup__close');
       popupCloseButton.addEventListener('click', popupCloseButtonClickHandler);

@@ -44,7 +44,7 @@
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case SUCCESS_STATUS:
-          onLoad(xhr.respone);
+          onLoad(xhr.response);
           break;
         default:
           onError('Неизвестная ошибка: ' + xhr.status + ' ' + xhr.statusText);
